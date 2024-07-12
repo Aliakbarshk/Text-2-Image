@@ -5,7 +5,9 @@ const image = document.getElementById("image");
 const btn = document.getElementById("btn");
 
 async function query(data) {
-  image.src = "/loading2.gif";
+  image.src =
+  "https://cdn.dribbble.com/users/121337/screenshots/1024835/media/0052359530771cae3d310ffcc7e9b348.gif";
+  
   const response = await fetch(
     "https://api-inference.huggingface.co/models/Melonie/text_to_image_finetuned",
     {
