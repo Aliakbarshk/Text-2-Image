@@ -1,44 +1,44 @@
-const token = "hf_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"; // Ye aapka secret key hai.
+const token = "hf_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"; // This is your secret key.
 
-const inputTxt = document.getElementById("input"); // Yeh input box hai jahan aap type karte ho.
-const image = document.getElementById("image"); // Yeh image hai jahan photo dikhayenge.
-const btn = document.getElementById("btn"); // Yeh button hai jo click karne par kaam karega.
+const inputTxt = document.getElementById("input"); // This is the input box where you type.
+const image = document.getElementById("image"); // This is the image where the photo will be displayed.
+const btn = document.getElementById("btn"); // This is the button that will trigger the action on click.
 
 async function query(data) {
     const response = await fetch(
         "https://api-inference.huggingface.co/models/Melonie/text_to_image_finetuned",
         {
             headers: {
-                Authorization: `Bearer ${token}`, // Aapka token yahan lag raha hai.
+                Authorization: `Bearer ${token}`, // Your token is being used here.
                 "Content-Type": "application/json",
             },
-            method: "POST", // Yeh batata hai ki hum data bhej rahe hain.
-            body: JSON.stringify(data), // Data ko string mein badal rahe hain.
+            method: "POST", // This indicates that we are sending data.
+            body: JSON.stringify(data), // Converting data to a string format.
         }
     );
 
-    if (!response.ok) { // Agar kuch galat ho gaya to...
+    if (!response.ok) { // If something went wrong...
         const errorDetails = await response.json();
-        console.error("Error:", errorDetails); // Galti ka message dikhate hain.
+        console.error("Error:", errorDetails); // Displaying the error message.
         throw new Error(`Request failed with status ${response.status}`);
     }
 
-    const result = await response.blob(); // Result ko image format mein badal rahe hain.
-    return result; // Image ko wapas bhejte hain.
+    const result = await response.blob(); // Converting the result to image format.
+    return result; // Returning the image.
 }
 
 btn.addEventListener("click", async function () {
-    const inputValue = inputTxt.value; // Jo aapne input diya, wo lete hain.
+    const inputValue = inputTxt.value; // Getting the input value provided by the user.
     if (!inputValue) {
-        alert("Please enter a prompt"); // Agar kuch nahi diya to alert dikhaate hain.
+        alert("Please enter a prompt"); // Showing alert if no input is provided.
         return;
     }
 
     try {
-        const response = await query({ "inputs": inputValue }); // API se image lene ki koshish karte hain.
-        const objectURL = URL.createObjectURL(response); // Image ko browser mein dikhane ka URL banate hain.
-        image.src = objectURL; // Image ko dikhate hain.
+        const response = await query({ "inputs": inputValue }); // Trying to get the image from the API.
+        const objectURL = URL.createObjectURL(response); // Creating a URL to display the image in the browser.
+        image.src = objectURL; // Displaying the image.
     } catch (error) {
-        console.error("Request failed", error); // Agar galti ho gayi to console mein dikhate hain.
+        console.error("Request failed", error); // Displaying error in the console if it fails.
     }
 });
